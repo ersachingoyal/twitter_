@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const hashtagSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     tweets: [  //because an hashtag can belong to multiple tweets thats why we are storing the tweet id
         {
