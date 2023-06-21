@@ -1,16 +1,26 @@
-const { TweetRepository } = require('../repository/index');
+const { TweetRepository, HashtagRepository } = require('../repository/index');
 
 class TweetService{
     constructor(){
         this.tweetRepository = new TweetRepository();
+        this.hastagRepository = new HashtagRepository();
     }
 
     async create(data){
         const content = data.content;
-        const tags = content.match(/#[a-zA-Z0-9_]+/g) //regex to get the hashtags
-        tags = tags.map((tag) => tag.substring(1)); //to remove the # from the hashtag
-        console.log(tags);
+        let tags = content.match(/#[a-zA-Z0-9_]+/g).map((tag) => tag.substring(1)) //regex to get the hashtags and to remove the # from the hashtag
         const tweet = await this.tweetRepository.create(data);
+        let alreadyPresentTags = await this.hastagRepository.findByName(tags);  //to check all the hastag already there in db which we are sending in our tweet
+        let titleOfPresenttags = alreadyPresentTags.map(tags => tags.title);
+        let newTags = tags.filter(tag => !titleOfPresenttags.includes(tag));
+        newTags = newTags.map(tag => {
+            return {title: tag, tweets: [tweet.id]}  //coz the bulk create accepts an obj like this
+        })
+        await this.hastagRepository.bulkCreate(newTags);
+        alreadyPresentTags.forEach((tag) => {  //we need to add the id of the tweet to the already present tag
+            tag.tweets.push(tweet.id);
+            tag.save()
+        })
         return tweet;
     }
 
