@@ -1,11 +1,11 @@
 import Tweet from '../models/tweet.js';
-import { CrudRepository } from './index.js'
+import CrudRepository from './crud-repository.js';
 
 class TweetRepository extends CrudRepository{
     constructor(){
         super(Tweet);
     }    
-    
+
     async create(data){
         try {
             const tweet = Tweet.create(data); //create method provided by mongose itself
@@ -50,6 +50,15 @@ class TweetRepository extends CrudRepository{
     //         console.log(error);
     //     }
     // }
+
+    async find(id){
+        try {
+            const tweet = await Tweet.findById(id).populate({path: 'likes'});  // these mongoose methods are thenable and if we dont write await they will return the mongoose query object, but the populate method is available only on the mongoose query and not the resolved promise
+            return tweet;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export default TweetRepository;
