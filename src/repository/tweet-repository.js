@@ -1,6 +1,11 @@
 import Tweet from '../models/tweet.js';
+import { CrudRepository } from './index.js'
 
-class TweetRepository{
+class TweetRepository extends CrudRepository{
+    constructor(){
+        super(Tweet);
+    }    
+    
     async create(data){
         try {
             const tweet = Tweet.create(data); //create method provided by mongose itself
@@ -10,14 +15,14 @@ class TweetRepository{
         }
     }
 
-    async get(id){
-        try {
-            const tweet = Tweet.findById(id);
-            return tweet;
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // async get(id){  will take from crudrepo
+    //     try {
+    //         const tweet = Tweet.findById(id);
+    //         return tweet;
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     async getWithComments(id){
         try {
@@ -37,14 +42,14 @@ class TweetRepository{
         }
     }
 
-    async destroy(id){
-        try {
-            const tweet = Tweet.findByIdAndRemove(id);
-            return tweet;
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // async destroy(id){  will take from crudrepo
+    //     try {
+    //         const tweet = Tweet.findByIdAndRemove(id);
+    //         return tweet;
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 }
 
 export default TweetRepository;
