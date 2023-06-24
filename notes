@@ -1,0 +1,1 @@
+here for authentication we are using passport.js library, and for password encryption the same bcrypt we are using
