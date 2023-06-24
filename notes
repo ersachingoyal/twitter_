@@ -1,1 +1,5 @@
 here for authentication we are using passport.js library, and for password encryption the same bcrypt we are using
+for passport first we install npm i passport-jwt
+this above one is used to create strategy and to use the strategy with the passport we need to install npm i passport
+
+we need to initialize the strategy and that we did in index.js
