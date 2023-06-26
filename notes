@@ -3,3 +3,7 @@ for passport first we install npm i passport-jwt
 this above one is used to create strategy and to use the strategy with the passport we need to install npm i passport
 
 we need to initialize the strategy and that we did in index.js
+
+for uploading images to s3 bucket we have used npm i aws-sdk this package
+for uploading images we have npm i multer, this package is used for uploading of files in node
+and to upload them to s3 we used npm i multer-s3
